@@ -21,6 +21,28 @@ jobs:
         with:
           msystem: ${{ matrix.sys }}
           update: true
-          install:
-            mingw-w64-${{matrix.env}}-openssl
-        
+          #install:
+          #  mingw-w64-${{matrix.env}}-openssl
+          pacboy: >-
+            make:p
+            cmake:p
+            diffutils:p
+            yasm:p
+            nasm:p
+            SDL:p
+            SDL2:p
+            SDL2_ttf:p
+            toolchain:p
+            libx264:p
+            binutils:p
+            ffnvcodec-headers:p
+            libva:p
+            clang:p
+            x264:p
+            openssl:p
+            gcc:p
+            meson:p
+            pkg-config:p
+            json-c:p
+            libpcap:p
+            dlfcn:p    

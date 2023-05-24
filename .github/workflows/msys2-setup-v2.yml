@@ -1,0 +1,26 @@
+name: Github Actions for Setup MSYS2
+on:
+  push:
+    paths:
+      - .github/workflows/msys2-setup-v2.yml
+defaults:
+  run:
+    shell: msys2 {0}
+jobs:
+  build:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        include:
+          - { sys: mingw64, env: x86_64 }
+          - { sys: mingw32, env: i686 }
+          - { sys: ucrt64, env: ucrt-x86_64 }
+          - { sys: clang64, env: clang-x86_64 }
+    steps:
+      - uses: actions/setup-msys2@v2
+        with:
+          msystem: $ {{ matrix.sys }}
+          update: true
+          install:
+            mingw-w64-${{matrix.env}}-openssl
+        

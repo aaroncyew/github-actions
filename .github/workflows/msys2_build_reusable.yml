@@ -7,7 +7,7 @@ on:
   
 jobs:
   call-workflow:
-    uses: lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@main
+    uses: lab-github/Media-Transport-Library/.github/workflows/msys3_ffmpeg_build.yml@main
     
 
   

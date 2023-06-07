@@ -9,7 +9,67 @@ defaults:
     shell: C:/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64 {0}
 
 jobs:
-  call-workflow:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        sys:
+          - mingw64
+          - ucrt64
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - name: Install FFmpeg dependencies
+      uses: msys2/setup-msys2@7efe20baefed56359985e327d329042cde2434ff # v2
+      with:
+        msystem: ${{matrix.sys}}
+        update: true
+        install: >-
+          git
+          base-devel
+          unzip
+        pacboy:
+          binutils:p
+          clang:p
+          diffutils:p
+          libx264:p
+          libva:p
+          ffnvcodec-headers:p
+          nasm:p
+          yasm:p
+    
+    - name: Reuse workflows
       uses: lab-github/Media-Transport-Library/.github/workflows/msys3_ffmpeg_build.yml@main
 
-  
+    - name: Fix mingw64 binutils 
+      run: |
+        # Fixes in https://sourceforge.net/p/mingw-w64/mailman/message/29053757/
+        cp -f /mingw64/bin/ar.exe /mingw64/bin/x86_64-w64-mingw32-ar.exe
+        cp -f /mingw64/bin/dlltool.exe /mingw64/bin/x86_64-w64-mingw32-dlltool.exe
+        cp -f /mingw64/bin/nm.exe /mingw64/bin/x86_64-w64-mingw32-nm.exe
+        cp -f /mingw64/bin/strip.exe /mingw64/bin/x86_64-w64-mingw32-strip.exe
+        cp -f /mingw64/bin/windres.exe /mingw64/bin/x86_64-w64-mingw32-windres.exe
+
+    - name: Configure FFmpeg v4.4
+      run: >
+        ./configure --arch=${{matrix.env}} 
+        --target-os=${{matrix.sys}} 
+        --cross-prefix=${{matrix.arch}}-w64-mingw32-
+        --prefix=/c/ffmpeg 
+        --enable-shared 
+        --enable-nonfree 
+        --enable-gpl
+        --disable-lto 
+        --enable-pic  
+        --disable-w32threads
+        --enable-mtl
+        --enable-libx264
+        --enable-libopenh264 
+        --enable-encoder=libopenh264
+    
+    - name: Build FFmpeg v4.4
+      run: |
+       make -j$(nproc)
+       make install
+       cat ffbuild/config.log

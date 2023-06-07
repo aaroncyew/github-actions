@@ -18,7 +18,6 @@ jobs:
       matrix:
         sys:
           - mingw64
-          - ucrt64
     defaults:
       run:
         shell: msys2 {0}
@@ -41,9 +40,25 @@ jobs:
           ffnvcodec-headers:p
           nasm:p
           yasm:p
+   
+    - name: Checkout Cisco H264
+      uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      with:
+        repository: 'cisco/openh264'
+        ref: openh264v2.3.1
+        path: openh264
 
-    - name: Fix mingw64 binutils 
+    - name: Checkout FFmpeg
       run: |
+        git clone https://git.ffmpeg.org/ffmpeg.git
+        cd ffmpeg
+        git checkout release/4.4
+        git reset --hard aa28df74ab197c49a05fecc40c81e0f8ec4ad0c3
+        cp -f ../kahawai_common.c ../kahawai_common.h ../kahawai_dec.c ../kahawai_enc.c ./libavdevice/
+        git am --whitespace=fix ../0001-avdevice-kahawai-Add-kahawai-input-output-devices.patch
+        
+    - name: Fix mingw64 binutils 
+      run: |         
         # Fixes in https://sourceforge.net/p/mingw-w64/mailman/message/29053757/
         cp -f /mingw64/bin/ar.exe /mingw64/bin/x86_64-w64-mingw32-ar.exe
         cp -f /mingw64/bin/dlltool.exe /mingw64/bin/x86_64-w64-mingw32-dlltool.exe
@@ -53,6 +68,7 @@ jobs:
 
     - name: Configure FFmpeg v4.4
       run: >
+        cd ffmpeg &&
         ./configure --arch=${{matrix.env}} 
         --target-os=${{matrix.sys}} 
         --cross-prefix=${{matrix.arch}}-w64-mingw32-

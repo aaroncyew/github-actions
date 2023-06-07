@@ -10,12 +10,6 @@ defaults:
 
 jobs:
   call-workflow:
-    runs-on: windows-latest
-    steps:
-      - name: Call reusable work calls
-        uses: lab-github/Media-Transport-Library/.github/workflows/msys3_ffmpeg_build.yml@main
-      
-      - name: Run locals
-        run: |
-          ls -al
+      uses: lab-github/Media-Transport-Library/.github/workflows/msys3_ffmpeg_build.yml@main
+
   

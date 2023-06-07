@@ -1,0 +1,11 @@
+name: Open Visual Cloud reusable workflows demo
+
+on:
+  push:
+    paths: 
+      - .github/workflows/msys2_build_reusable.yml
+  
+jobs:
+  call-workflow:
+    uses: OpenVisualCloud/Media-Transport-Library/.github/workflows/msys2_build.yml@main
+  

@@ -10,7 +10,7 @@ defaults:
   
 jobs:
   reuse-flow:
-    uses: lab-github/Media-Transport-Library/.github/workflows/msys3_ffmpeg_build.yml@main
+    uses: lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@imtl-msys2flow-matrix
 
   build:
     runs-on: windows-latest

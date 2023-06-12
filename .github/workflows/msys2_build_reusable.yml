@@ -4,14 +4,14 @@ on:
   push:
     paths: 
       - .github/workflows/msys2_build_reusable.yml
-      - lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml
+      - lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@main
 defaults:
   run:
     shell: C:/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64 {0}
   
 jobs:
   reuse-flow:
-    uses: lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@imtl-workflows-matrixbuild
+    uses: OpenVisualCloud/Media-Transport-Library/.github/workflows/msys2_build.yml@main
 
   build:
     runs-on: windows-latest

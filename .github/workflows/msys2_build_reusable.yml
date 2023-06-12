@@ -1,4 +1,4 @@
-name: Open Visual Cloud reusable workflows demo
+name: Open Visual Cloud & FFmpeg workflows
 
 on:
   push:

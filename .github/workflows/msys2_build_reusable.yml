@@ -4,6 +4,7 @@ on:
   push:
     paths: 
       - .github/workflows/msys2_build_reusable.yml
+      - lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml
 defaults:
   run:
     shell: C:/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64 {0}

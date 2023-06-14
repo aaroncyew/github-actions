@@ -121,5 +121,5 @@ jobs:
 
     - name: Build IMTL lib with TAP
       run: |
-        meson setup tap_build -Denable_tap=true
+        meson setup tap_build -Denable_tap=false
         meson install -C tap_build

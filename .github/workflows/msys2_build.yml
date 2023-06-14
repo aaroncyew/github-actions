@@ -76,15 +76,13 @@ jobs:
 
     - name: Convert symlink patch files to real file
       run: |
-        pwd
-        ls -al
         cd patches/dpdk/${{matrix.dpdk}}
         ls *.patch | xargs -I{} bash -c 'if [[ $(sed -n '1p' "{}") =~ ^../.*\.patch$ ]]; then cp "$(cat "{}")" "{}"; fi'
         cd windows
         ls *.patch | xargs -I{} bash -c 'if [[ $(sed -n '1p' "{}") =~ ^../.*\.patch$ ]]; then cp "$(cat "{}")" "{}"; fi'
     
     - name: Apply patches for DPDK
-      shell: bash
+      shell: C:\msys64\bin\bash\bash.exe {0}
       run: |
         cd dpdk
         git config user.name github-actions

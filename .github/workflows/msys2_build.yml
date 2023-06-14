@@ -18,9 +18,8 @@ jobs:
       matrix:
         sys:
           - mingw64
-          - ucrt64
         imtl: [main]
-        dpdk: [22.11, 23.03]
+        dpdk: [23.03]
     defaults:
       run:
         shell: msys2 {0}

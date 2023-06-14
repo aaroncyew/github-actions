@@ -82,7 +82,9 @@ jobs:
         ls *.patch | xargs -I{} bash -c 'if [[ $(sed -n '1p' "{}") =~ ^../.*\.patch$ ]]; then cp "$(cat "{}")" "{}"; fi'
     
     - name: Apply patches for DPDK
-      shell: C:\msys64\usr\bin\bash\bash.exe {0}
+      #Error: Second path fragment must not be a drive or UNC name. (Parameter 'expression')
+      # TODO: shell: C:\msys64\usr\bin\bash\bash.exe {0}
+      shell: cmd {0}
       run: |
         cd dpdk
         git config user.name github-actions

@@ -82,7 +82,7 @@ jobs:
         ls *.patch | xargs -I{} bash -c 'if [[ $(sed -n '1p' "{}") =~ ^../.*\.patch$ ]]; then cp "$(cat "{}")" "{}"; fi'
     
     - name: Apply patches for DPDK
-      shell: C:\msys64\bin\bash\bash.exe {0}
+      shell: C:\msys64\usr\bin\bash\bash.exe {0}
       run: |
         cd dpdk
         git config user.name github-actions

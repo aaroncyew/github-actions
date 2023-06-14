@@ -76,6 +76,8 @@ jobs:
 
     - name: Convert symlink patch files to real file
       run: |
+        pwd
+        ls -al
         cd patches/dpdk/${{matrix.dpdk}}
         ls *.patch | xargs -I{} bash -c 'if [[ $(sed -n '1p' "{}") =~ ^../.*\.patch$ ]]; then cp "$(cat "{}")" "{}"; fi'
         cd windows

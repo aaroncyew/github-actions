@@ -13,7 +13,7 @@ jobs:
     uses: lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@imtl-workflows-matrixbuild
 
   build:
-    runs-on: windows-latest
+    runs-on: self-hosted
     needs: reuse-flow
     strategy:
       matrix:

@@ -10,7 +10,7 @@ defaults:
   
 jobs:
   reuse-flow:
-    uses: lab-github/Media-Transport-Library/.github/workflows/msys2_build.yml@imtl-workflows-matrixbuild
+    uses: lab-github/github-actions/.github/workflows/msys2_build.yml@main
 
   build:
     runs-on: self-hosted

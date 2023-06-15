@@ -46,7 +46,7 @@ jobs:
     - name: Build LibVA
       run: |
          mkdir -p libva/build
-         cd build
+         cd libva/build
          meson .. -Dprefix=/usr -Dlibdir=/usr/lib/x86_64-linux-gnu
          ninja
          ninja install

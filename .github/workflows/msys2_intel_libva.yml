@@ -1,5 +1,10 @@
 name: Windows MSYS2 Intel Video Acceleration (VA) API
-on: [push, pull_request, workflow_call]
+on:
+  push:
+    paths:
+      - .github/workflows/msys2_intel_libva.yml
+  pull_request:
+  workflow_call:
 
 env:
   LIBVA_DRIVERS_PATH: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
@@ -27,7 +32,7 @@ jobs:
         pacboy: >-
           pkg-config:p
           meson:p
-          automake:p
+          automake1.16:p
           libtool:p
     
     - name: Checkout Intel LibVA

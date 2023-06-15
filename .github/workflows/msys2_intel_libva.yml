@@ -48,7 +48,7 @@ jobs:
       run: |
         git clone https://gitlab.freedesktop.org/mesa/drm.git
         cd drm
-        meson build -Dprefix=/usr
+        meson setup -Dprefix=/usr build
         ninja -C build install
         
     - name: Build LibVA

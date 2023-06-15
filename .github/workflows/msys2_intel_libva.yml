@@ -22,7 +22,7 @@ jobs:
         msystem: ${{matrix.sys}}
         update: true
         install: >-
-          git:
+          git
           base-devel
         pacboy: >-
           pkg-config:p

@@ -29,10 +29,10 @@ jobs:
         install: >-
           git
           base-devel
+          automake1.16
         pacboy: >-
           pkg-config:p
           meson:p
-          automake1.16:p
           libtool:p
     
     - name: Checkout Intel LibVA

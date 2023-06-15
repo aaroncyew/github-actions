@@ -46,6 +46,7 @@ jobs:
         
     - name: Build LibDRM
       run: |
+        rm -rf drm
         git clone https://gitlab.freedesktop.org/mesa/drm.git
         cd drm
         meson setup -Dprefix=/usr build

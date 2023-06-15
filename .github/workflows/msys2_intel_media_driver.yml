@@ -1,6 +1,10 @@
 name: Windows MSYS2 Intel Media Driver VAAPI
-on: [push, pull_request, workflow_call]
-
+on: 
+  push:
+    paths:
+      - .github/workflows/msys2_intel_media_driver.yml
+  pull_request:
+  workflow_call:
 env:
   LIBVA_DRIVERS_PATH: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
   LIBVA_DRIVER_NAME: iHD
@@ -22,7 +26,7 @@ jobs:
         msystem: ${{matrix.sys}}
         update: true
         install: >-
-          git:
+          git
           base-devel
         pacboy: >-
           autoconf:p

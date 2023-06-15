@@ -29,8 +29,8 @@ jobs:
           git
           base-devel
         pacboy: >-
-          autoconf:p
-          drmmingw:p
+          autoconf2.71:p
+          drmingw:p
           libtool:p
           xorgproto:p
           mesa:p

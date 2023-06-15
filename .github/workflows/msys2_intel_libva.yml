@@ -1,0 +1,48 @@
+name: Windows MSYS2 Intel Video Acceleration (VA) API
+on: [push, pull_request, workflow_call]
+
+env:
+  LIBVA_DRIVERS_PATH: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+  LIBVA_DRIVER_NAME: iHD
+  
+jobs:
+  vaapi:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        sys: [mingw64]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    # Ubuntu Packages: git cmake pkg-config meson libdrm-dev automake libtool
+    - name: Install 
+      uses: msys2/setup-msys2@7efe20baefed56359985e327d329042cde2434ff # v2
+      with:
+        msystem: ${{matrix.sys}}
+        update: true
+        install: >-
+          git:
+          base-devel
+        pacboy: >-
+          pkg-config:p
+          meson:p
+          automake:p
+          libtool:p
+    
+    - name: Checkout Intel LibVA
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      with:
+        repository: 'intel/libva'
+        ref: 2.18.0
+        path: libva
+        clean: true
+        
+    - name: Build LibVA
+      run: |
+         mkdir -p libva/build
+         cd build
+         meson .. -Dprefix=/usr -Dlibdir=/usr/lib/x86_64-linux-gnu
+         ninja
+         ninja install
+         

@@ -31,6 +31,7 @@ jobs:
           base-devel
           automake1.16
         pacboy: >-
+          cmake:p
           pkg-config:p
           meson:p
           libtool:p
@@ -42,6 +43,13 @@ jobs:
         ref: 2.18.0
         path: libva
         clean: true
+        
+    - name: Build LibDRM
+      run: |
+        git clone https://gitlab.freedesktop.org/mesa/drm.git
+        cd drm
+        meson build -Dprefix=/usr
+        ninja -C build install
         
     - name: Build LibVA
       run: |

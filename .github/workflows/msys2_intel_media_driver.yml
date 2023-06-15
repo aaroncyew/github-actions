@@ -1,0 +1,46 @@
+name: Windows MSYS2 Intel Media Driver VAAPI
+on: [push, pull_request, workflow_call]
+
+env:
+  LIBVA_DRIVERS_PATH: /usr/lib/x86_64-linux-gnu/dri/iHD_drv_video.so
+  LIBVA_DRIVER_NAME: iHD
+  
+jobs:
+  media-driver:
+    runs-on: self-hosted, ubuntu-latest
+    strategy:
+      matrix:
+        sys: [mingw64]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    # Ubuntu Packages: autoconf libtool libdrm-dev xorg xorg-dev openbox libx11-dev libgl1-mesa-glx libgl1-mesa-dev
+    - name: Install 
+      uses: msys2/setup-msys2@7efe20baefed56359985e327d329042cde2434ff # v2
+      with:
+        msystem: ${{matrix.sys}}
+        update: true
+        install: >-
+          autoconf:p
+          drmmingw:p
+          libtool:p
+          xorgproto:p
+          mesa:p
+    
+    # Requires: intel-gmmlib-22.3.5, libva-2.18.0
+    - name: Checkout Intel Media Driver
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      with:
+        repository: 'intel/media-driver'
+        ref: intel-media-23.1.6
+        path: media-driver
+        clean: true
+        
+    - name: Build Media Driver
+      run: |
+         mkdir build_media
+         cd build_media
+         cmake ../build_media
+         make -j$(nproc)
+         # make install

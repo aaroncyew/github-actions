@@ -7,7 +7,7 @@ env:
   
 jobs:
   media-driver:
-    runs-on: self-hosted, ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         sys: [mingw64]

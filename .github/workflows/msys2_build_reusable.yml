@@ -10,12 +10,12 @@ defaults:
     shell: C:/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64 {0}
   
 jobs:
-  reuse-flow:
+  msys2-flow:
     uses: lab-github/github-actions/.github/workflows/msys2_build.yml@main
 
   build:
     runs-on: self-hosted
-    needs: reuse-flow
+    needs: msys2-flow
     strategy:
       matrix:
         sys:

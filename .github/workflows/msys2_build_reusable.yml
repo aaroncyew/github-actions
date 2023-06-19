@@ -1,4 +1,4 @@
-name: Open Visual Cloud & FFmpeg workflows
+name: Open Visual Cloud & FFmpeg Workflows
 
 on:
   push:

@@ -83,10 +83,13 @@ jobs:
     
     - name: Apply patches for DPDK
       #Error: Second path fragment must not be a drive or UNC name. (Parameter 'expression')
-      # TODO: shell: C:\msys64\usr\bin\bash\bash.exe {0}
+      #shell: C:\msys64\usr\bin\bash\bash.exe {0}
       shell: bash
       run: |
         cd dpdk
+        echo "INFO: $PATH"
+        which bash
+        export PATH=/c/"Program Files"/Git/bin:$PATH
         git config user.name github-actions
         git config user.email github-actions@github.com
         git am ../patches/dpdk/${{matrix.dpdk}}/*.patch

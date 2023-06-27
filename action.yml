@@ -39,15 +39,15 @@ runs:
         cp -f /mingw64/bin/strip.exe /mingw64/bin/x86_64-w64-mingw32-strip.exe
         cp -f /mingw64/bin/windres.exe /mingw64/bin/x86_64-w64-mingw32-windres.exe         
         
-     - name: Setup FFmpeg
-       shell: msys2 {0}
-       run: >
-         ./configure --arch=x86_64
-         --target-os=mingw64
-         --prefix=/c/ffmpeg_github2
-         --enable-shared
-         --enable-nonfree
-         --enable-gpl
-         --enable-pic
-         --disable-lto
-         --disable-w32threads
+    - name: Setup FFmpeg
+      shell: msys2 {0}
+      run: >
+        ./configure --arch=x86_64
+        --target-os=mingw64
+        --prefix=/c/ffmpeg_github2
+        --enable-shared
+        --enable-nonfree
+        --enable-gpl
+        --enable-pic
+        --disable-lto
+        --disable-w32threads

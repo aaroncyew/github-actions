@@ -35,6 +35,7 @@ runs:
           yasm:p
     - name: Checkout FFmpeg
       run: |
+      shell: msys2 {0}
         git clone https://git.ffmpeg.org/ffmpeg.git
         ls -al
           

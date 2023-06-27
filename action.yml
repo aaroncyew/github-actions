@@ -1,17 +1,4 @@
 name: MSYS2 FFmpeg Recipe
-#description: 'Greet someone'
-#inputs:
-#  who-to-greet: # id of input
-#    description: 'Who to greet'
-#    required: true
-#    default: 'World'
-#outputs:
-#  random-number:
-#    description: 'Random number'
-#    value: ${{ steps.random-number-generator.outputs.random-number }}
-defaults:
-  run:
-    shell: msys2 {0}
 runs:
   using: "composite"
   steps:
@@ -33,10 +20,34 @@ runs:
           ffnvcodec-headers:p
           nasm:p
           yasm:p
+          
     - name: Checkout FFmpeg
       shell: msys2 {0}
       run: |
-        git clone https://git.ffmpeg.org/ffmpeg.git
+        git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+        pushd ffmpeg
         git checkout release/4.4
-        ls -al
-          
+        git reset --hard aa28df74ab197c49a05fecc40c81e0f8ec4ad0c3
+        
+    - name: Fix mingw64 binutils
+      shell: msys2 {0}
+      run: |         
+        # Fixes in https://sourceforge.net/p/mingw-w64/mailman/message/29053757/
+        cp -f /mingw64/bin/ar.exe /mingw64/bin/x86_64-w64-mingw32-ar.exe
+        cp -f /mingw64/bin/dlltool.exe /mingw64/bin/x86_64-w64-mingw32-dlltool.exe
+        cp -f /mingw64/bin/nm.exe /mingw64/bin/x86_64-w64-mingw32-nm.exe
+        cp -f /mingw64/bin/strip.exe /mingw64/bin/x86_64-w64-mingw32-strip.exe
+        cp -f /mingw64/bin/windres.exe /mingw64/bin/x86_64-w64-mingw32-windres.exe         
+        
+     - name: Setup FFmpeg
+       shell: msys2 {0}
+       run: >
+         ./configure --arch=x86_64
+         --target-os=mingw64
+         --prefix=/c/ffmpeg_github2
+         --enable-shared
+         --enable-nonfree
+         --enable-gpl
+         --enable-pic
+         --disable-lto
+         --disable-w32threads

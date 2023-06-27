@@ -1,23 +1,40 @@
-name: 'Hello World'
-description: 'Greet someone'
-inputs:
-  who-to-greet: # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: 'Random number'
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+name: MSYS2 FFmpeg Recipe
+#description: 'Greet someone'
+#inputs:
+#  who-to-greet: # id of input
+#    description: 'Who to greet'
+#    required: true
+#    default: 'World'
+#outputs:
+#  random-number:
+#    description: 'Random number'
+#    value: ${{ steps.random-number-generator.outputs.random-number }}
+defaults:
+  run:
+    shell: msys2 {0}
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}
-      shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.sh
-      shell: bash
+    - name: Install FFmpeg dependencies
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw64
+        update: true
+        install: >-
+          git
+          base-devel
+          unzip
+        pacboy:
+          binutils:p
+          clang:p
+          diffutils:p
+          libx264:p
+          libva:p
+          ffnvcodec-headers:p
+          nasm:p
+          yasm:p
+      - name: Checkout FFmpeg
+        run: |
+          git clone https://git.ffmpeg.org/ffmpeg.git
+          ls -al
+          

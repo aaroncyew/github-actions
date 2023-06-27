@@ -28,11 +28,12 @@ runs:
         pushd ffmpeg
         git checkout release/4.4
         git reset --hard aa28df74ab197c49a05fecc40c81e0f8ec4ad0c3
+        cp -f ../kahawai_common.c ../kahawai_common.h ../kahawai_dec.c ../kahawai_enc.c ./libavdevice/
+        git am --whitespace=fix ../0001-avdevice-kahawai-Add-kahawai-input-output-devices.patch
         
     - name: Fix mingw64 binutils
       shell: msys2 {0}
       run: |
-        ls -al
         # Fixes in https://sourceforge.net/p/mingw-w64/mailman/message/29053757/
         cp -f /mingw64/bin/ar.exe /mingw64/bin/x86_64-w64-mingw32-ar.exe
         cp -f /mingw64/bin/dlltool.exe /mingw64/bin/x86_64-w64-mingw32-dlltool.exe

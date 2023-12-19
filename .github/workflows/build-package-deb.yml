@@ -20,3 +20,8 @@ jobs:
           repository: intel-sandbox/frameworks.actions.deb-builder
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
           path: deb-builder
+      - id: deb_builder
+        name: Build source package
+        uses: ./deb-builder/${{ inputs.package }}/debian/11
+        with:
+          token: ${{ secrets.DEB_BUILDE_TOKEN }}

@@ -37,6 +37,4 @@ jobs:
         name: Build & Compile libvirt
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest git config --global --add safe.directory /build/libvirt
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest git config --global --add safe.directory /build/libvirt/subprojects/keycodemapdb
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v $HOME:$HOME --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

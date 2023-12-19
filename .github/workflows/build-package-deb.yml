@@ -15,7 +15,7 @@ jobs:
     steps:
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: gitlab.com/libvirt/libvirt
           ref: v9.10.0
@@ -23,7 +23,7 @@ jobs:
           path: libvirt
       - id: checkout_frame_deb_builder
         name: Checkout Builder Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: intel-sandbox/frameworks.actions.deb-builder
           token: ${{ secrets.DEB_BUILDER_TOKEN }}

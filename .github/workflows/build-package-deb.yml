@@ -33,3 +33,9 @@ jobs:
         uses: ./deb-builder/libvirt/debian/11
         with:
           token: ${{ secrets.DEB_BUILDE_TOKEN }}
+      - id: libvirt_build_and_compile
+        name: Build & Compile libvirt
+        shell: bash
+        run: |
+          docker run --rm -it -v $(pwd)/libvirt:/build/libvirt debian:11-slim
+          meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

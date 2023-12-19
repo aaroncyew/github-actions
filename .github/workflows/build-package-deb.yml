@@ -14,10 +14,9 @@ jobs:
     runs-on: self-hosted
     steps:
       - id: checkout_libvirt
-        name: Checkout libvirt upstream repo
-        uses: actions/checkout@v3
+        name: Checkout libvirt upstream repo 
         with:
-          repository: gitlab.com/libvirt/libvirt
+          repository: libvirt/libvirt
           ref: v9.10.0
           submodules: recursive
           path: libvirt

@@ -37,4 +37,6 @@ jobs:
         name: Build & Compile libvirt
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -t registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          echo $(pwd)
+          ls -al
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -t registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

@@ -1,5 +1,5 @@
 name: Build package for Deb
-run-name: Build Debian {{ inputs.package }} Package
+run-name: Build Debian ${{ inputs.package }} Package
 on:
   workflow_dispatch:
     inputs:

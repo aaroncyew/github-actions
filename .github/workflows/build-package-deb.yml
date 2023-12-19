@@ -36,6 +36,6 @@ jobs:
       - id: libvirt_build_and_compile
         name: Build & Compile libvirt
         shell: bash
-        run: |
+        run:
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -t debian:11-slim
           meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

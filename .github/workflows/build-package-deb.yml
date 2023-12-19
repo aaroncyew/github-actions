@@ -38,5 +38,5 @@ jobs:
         shell: bash
         run: |
           docker run --rm -v $(pwd)/libvirt:/build/libvirt --workdir /build/libvirt -t registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest git config --global --add safe.directory /build/libvirt \
-          && git config --global --add /build/libvirt/subprojects/keycodemapdb \
+          && git config --global --add safe.directory /build/libvirt/subprojects/keycodemapdb \
           && meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

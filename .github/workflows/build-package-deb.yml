@@ -5,7 +5,7 @@ on:
     inputs:
       package:
         description: 'user space package'
-        required: true
+        required: false
         type: string
         default: 'libvirt'
 jobs:

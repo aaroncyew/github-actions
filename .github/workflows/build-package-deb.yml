@@ -8,12 +8,18 @@ on:
         required: false
         type: string
         default: 'libvirt'
+      version:
+        description: 'user space version'
+        required: false
+        type: string
+        default: '11'
 jobs:
   build_package:
     name: Build Package
     runs-on: self-hosted
     steps:
       - id: cleanup_libvirt
+        name: Cleanout libvirt upstream repo
         run: rm -rf libvirt/
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
@@ -24,7 +30,7 @@ jobs:
           submodules: recursive
           path: libvirt
       - id: checkout_frame_deb_builder
-        name: Checkout Builder Repo
+        name: Checkout Debian builder repo
         uses: actions/checkout@v3
         with:
           repository: intel-sandbox/frameworks.actions.deb-builder
@@ -33,7 +39,7 @@ jobs:
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/debian/11
+        uses: ./deb-builder/libvirt/debian/${{ inputs.version }}
         with:
           token: ${{ secrets.DEB_BUILDE_TOKEN }}
       - id: libvirt_build_and_compile

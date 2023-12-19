@@ -27,6 +27,7 @@ jobs:
         with:
           repository: intel-sandbox/frameworks.actions.deb-builder
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
+          clean: true
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package

@@ -13,6 +13,8 @@ jobs:
     name: Build Package
     runs-on: self-hosted
     steps:
+      - id: cleanup_libvirt
+        run: rm -rf libvirt/
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3

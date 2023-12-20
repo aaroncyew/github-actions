@@ -37,6 +37,13 @@ jobs:
           sudo rm -rf libvirt/ deb-builder/
           #git config -l
           #env | sort
+      - id: checkout_libvirt_patch
+        uses: actions/checkout@v3
+        with:
+          repository: intel-innersource/os.linux.stack-bkc.packages
+          ref: main
+          path: stack-bkc
+          token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3
@@ -53,6 +60,31 @@ jobs:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
           clean: true
           path: deb-builder
+      - id: libvirt_apply_patch
+        name: Apply libvirt patches
+        run: |
+          cd libvirt/
+          git apply ../stack-bkc/emr/libvirt/0001-qemu-Check-if-INTEL-Trust-Domain-Extention-support-i.patch
+          git apply ../stack-bkc/emr/libvirt/0002-qemu-Add-TDX-capability.patch
+          git apply ../stack-bkc/emr/libvirt/0003-conf-expose-TDX-feature-in-domain-capabilities.patch
+          git apply ../stack-bkc/emr/libvirt/0004-conf-add-tdx-as-launch-security-type.patch
+          git apply ../stack-bkc/emr/libvirt/0005-qemu-Add-command-line-and-validation-for-TDX-type.patch
+          git apply ../stack-bkc/emr/libvirt/0006-qemu-force-special-parameters-enabled-for-TDX-guest.patch
+          git apply ../stack-bkc/emr/libvirt/0007-qemu-add-hard-reboot-in-QEMU-driver.patch
+          git apply ../stack-bkc/emr/libvirt/0008-qemu-make-hard-reboot-as-the-TDX-default-reboot-mode.patch
+          git apply ../stack-bkc/emr/libvirt/0009-qemu-Extend-hard-reboot-in-Qemu-driver.patch
+          git apply ../stack-bkc/emr/libvirt/0010-virsh-add-new-option-timekeep-to-keep-virsh-console-.patch
+          git apply ../stack-bkc/emr/libvirt/0011-conf-Add-support-to-keep-same-domid-for-hard-reboot.patch
+          git apply ../stack-bkc/emr/libvirt/0012-Add-private-memfd-host-memory-backend-for-QEMU.patch
+          git apply ../stack-bkc/emr/libvirt/0103-RHEL-Fix-virConnectGetMaxVcpus-output.patch
+          git apply ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
+          git apply ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
+          git apply ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
+          git apply ../stack-bkc/emr/libvirt/0001-Add-IOMMUFD-object-support.patch
+          git apply ../stack-bkc/emr/libvirt/0002-Add-IOMMUFD-support-for-intel-iommu.patch
+          git apply ../stack-bkc/emr/libvirt/0003-Add-IOMMUFD-support-for-hostdev-passthrough.patch
+          git apply ../stack-bkc/emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
+          git apply ../stack-bkc/emr/libvirt/0005-Add-more-parameters-support-for-hostdev-passthrough.patch
       - id: libvirt_deb_builder
         name: Build source package
         uses: ./deb-builder/libvirt/ubuntu/2204

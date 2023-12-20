@@ -15,7 +15,7 @@ on:
         description: 'user space version'
         required: true
         type: string
-        default: 'v10.0.0'
+        default: 'v9.10.0'
       distro:
         description: 'distro'
         required: false
@@ -41,8 +41,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: intel-innersource/os.linux.stack-bkc.packages
-          ref: main
           path: stack-bkc
+          fetch-depth: '0'
+          fetch-tags: '0'
           clean: true
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: checkout_libvirt

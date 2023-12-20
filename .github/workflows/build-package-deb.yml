@@ -62,7 +62,7 @@ jobs:
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/debian/12
+        uses: ./deb-builder/libvirt/ubuntu/2204
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile

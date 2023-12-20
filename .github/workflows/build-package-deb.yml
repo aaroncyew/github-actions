@@ -1,10 +1,5 @@
 name: Build Debian Packages
 run-name: Build ${{ inputs.package }} ${{ inputs.version }} deb Package
-
-env: 
-  GITHUB_DISTRO_NAME: ''
-  GITHUB_DISTRO_VER: ''
-
 on:
   push:
     branches:
@@ -37,17 +32,13 @@ jobs:
           - debian
         distro-version:
           - 12
-          - 11
-          - 10
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
         run: | 
           sudo rm -rf libvirt/ deb-builder/
           #git config -l
-          env | sort
-          echo "${{ matrix.distro }}" > ${{ env.GITHUB_DISTRO_NAME }}
-          echo "${{ matrix.distro-version }}" > ${{ env.GITHUB_DISTRO_VERSION }}
+          #env | sort
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3
@@ -66,7 +57,7 @@ jobs:
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/debian
+        uses: ./deb-builder/libvirt/debian/12
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile

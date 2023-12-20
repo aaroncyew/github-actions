@@ -103,7 +103,9 @@ jobs:
         run: |
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled \
           -Ddriver_libxl=enabled -Dsasl=enabled -Dpolkit=enabled -Ddriver_libvirtd=enabled -Ddriver_remote=enabled -Ddriver_test=enabled -Ddriver_vz=disabled -Ddriver_bhyve=disabled -Ddriver_ch=disabled -Ddriver_interface=enabled -Ddriver_network=enabled \
-          -Dstorage_fs=enabled -Dstorage_lvm=enabled -Dstorage_iscsi=enabled -Dstorage_scsi=enabled -Dstorage_disk=enabled -Dstorage_mpath=enabled -Dstorage_vstorage=disabled -Dcapng=enabled -Dselinux=enabled
+          -Dstorage_fs=enabled -Dstorage_lvm=enabled -Dstorage_iscsi=enabled -Dstorage_scsi=enabled -Dstorage_disk=enabled -Dstorage_mpath=enabled -Dstorage_vstorage=disabled -Dcapng=enabled -Dselinux=enabled \
+          -Dapparmor=disabled -Dapparmor_profiles=disabled -Dsecdriver_apparmor=disabled -Dudev=enabled -Dyajl=enabled -Dlibpcap=enabled -Dlibnbd=enabled -Dlibnl=enabled -Daudit=enabled -Ddtrace=enabled -Dfirewalld=enabled -Dpm_utils=disabled -Dnss=enabled \
+          -Dexpensive_tests=enabled -Dinit_script=systemd -Ddocs=enabled -Dtests=enabled -Drpath=disabled
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build
           echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build test
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build install

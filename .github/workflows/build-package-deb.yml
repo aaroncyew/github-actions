@@ -46,8 +46,8 @@ jobs:
           sudo rm -rf libvirt/ deb-builder/
           #git config -l
           env | sort
-          echo GITHUB_DISTRO_NAME > "${{ matrix.distro }}"
-          echo GITHUB_DISTRO_VERSION > "${{ matrix.distro-version }}"
+          echo "${{ matrix.distro }}" > $GITHUB_DISTRO_NAME
+          echo "${{ matrix.distro-version }}" > $GITHUB_DISTRO_VERSION
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3

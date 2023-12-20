@@ -20,7 +20,12 @@ on:
         description: 'distro'
         required: false
         type: string
-        default: 'debian'
+        default: 'ubuntu'
+      distro-ver:
+        description: 'distro version'
+        required: false
+        type: string
+        default: '2204'
 jobs:
   build_package:
     name: Build Package
@@ -29,9 +34,9 @@ jobs:
       fail-fast: true
       matrix:
         distro:
-          - debian
+          - ${{ inputs.distro }}
         distro-version:
-          - 12
+          - ${{ inputs.distro-ver }}
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo

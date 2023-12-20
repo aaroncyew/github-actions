@@ -67,7 +67,10 @@ jobs:
       - id: libvirt_apply_patch
         name: Apply libvirt patches
         run: |
-          cd libvirt/
+          cd stack-bkc/
+          git checkout 
+          git checkout 9ccbe0c -- emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
+          cd ../libvirt
           git apply ../stack-bkc/emr/libvirt/0001-qemu-Check-if-INTEL-Trust-Domain-Extention-support-i.patch
           git apply ../stack-bkc/emr/libvirt/0002-qemu-Add-TDX-capability.patch
           git apply ../stack-bkc/emr/libvirt/0003-conf-expose-TDX-feature-in-domain-capabilities.patch

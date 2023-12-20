@@ -1,6 +1,9 @@
 name: Build Debian Packages
 run-name: Build ${{ inputs.package }} ${{ inputs.version }} deb Package
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       package:
@@ -69,4 +72,4 @@ jobs:
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/${{ matrix.distro }} meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/${{ matrix.distro }} ninja -C build
           echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/${{ matrix.distro }} ninja -C build test
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/${{ matrix.distro }} sudo ninja -C build install
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/${{ matrix.distro }} ninja -C build install

@@ -20,7 +20,7 @@ jobs:
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
-        run: sudo rm -rf ${{ github.workspace }}
+        run: sudo rm -rf libvirt/ deb-builder/
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3

@@ -32,6 +32,7 @@ jobs:
       matrix:
         distro:
           - ci-${{ inputs.distro }}-${{ inputs.distro-ver }}:latest
+          - ci-${{ inputs.distro }}-11:latest
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo

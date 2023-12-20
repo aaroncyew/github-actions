@@ -30,13 +30,6 @@ jobs:
   build_package:
     name: Build Package
     runs-on: self-hosted
-    strategy:
-      fail-fast: true
-      matrix:
-        distro:
-          - ${{ inputs.distro }}
-        distro-version:
-          - ${{ inputs.distro-version }}
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
@@ -66,7 +59,7 @@ jobs:
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
-        name: Build & compile ${{ inputs.package}} on ${{ inputs.distro }}
+        name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}
         shell: bash
         run: |
           docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled

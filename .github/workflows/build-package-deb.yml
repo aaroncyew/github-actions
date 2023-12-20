@@ -34,7 +34,7 @@ jobs:
       fail-fast: true
       matrix:
         distro:
-          - ${{ inputs.distro }}
+          - debian
         distro-version:
           - 12
           - 11

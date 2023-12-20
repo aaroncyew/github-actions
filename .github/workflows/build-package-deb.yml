@@ -1,5 +1,5 @@
 name: Build Debian Packages
-run-name: Build Debian ${{ inputs.package }} Package
+run-name: Build ${{ inputs.package }} ${{ inputs.version }} deb Package
 on:
   workflow_dispatch:
     inputs:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
-        run: rm -rf libvirt/
+        run: sudo rm -rf libvirt/
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3

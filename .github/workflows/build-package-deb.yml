@@ -41,11 +41,11 @@ jobs:
         name: Build source package
         uses: ./deb-builder/libvirt/debian/11
         with:
-          token: ${{ secrets.DEB_BUILDE_TOKEN }}
+          token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
         name: Build & compile ${{ inputs.package}}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian/11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest git config -l
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian.11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian.11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest ninja -C build test
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian/11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest git config -l
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian/11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder/libvirt/debian/11:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-debian-12:latest ninja -C build test

@@ -34,7 +34,7 @@ jobs:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
         run: | 
-          sudo rm -rf libvirt/ deb-builder/
+          sudo rm -rf libvirt/ deb-builder/ stack-bkc/
           #git config -l
           #env | sort
       - id: checkout_libvirt_patch
@@ -43,6 +43,7 @@ jobs:
           repository: intel-innersource/os.linux.stack-bkc.packages
           ref: main
           path: stack-bkc
+          clean: true
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo

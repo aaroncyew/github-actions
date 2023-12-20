@@ -21,7 +21,7 @@ on:
         required: false
         type: string
         default: 'ubuntu'
-      distro-ver:
+      distro-version:
         description: 'distro version'
         required: false
         type: string
@@ -36,7 +36,7 @@ jobs:
         distro:
           - ${{ inputs.distro }}
         distro-version:
-          - ${{ inputs.distro-ver }}
+          - ${{ inputs.distro-version }}
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
@@ -66,10 +66,10 @@ jobs:
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
-        name: Build & compile ${{ inputs.package}} on ${{ matrix.distro }}
+        name: Build & compile ${{ inputs.package}} on ${{ inputs.distro }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build
-          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build test
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build install
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build test
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build install

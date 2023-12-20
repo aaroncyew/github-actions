@@ -39,7 +39,7 @@ jobs:
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ${{ github.workspace }}/deb-builder/libvirt/debian/11
+        uses: ./deb-builder/libvirt/debian/11
         with:
           token: ${{ secrets.DEB_BUILDE_TOKEN }}
       - id: libvirt_build_and_compile

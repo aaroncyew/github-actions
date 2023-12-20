@@ -46,12 +46,16 @@ jobs:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
-        uses: actions/checkout@v3
-        with:
-          repository: libvirt/libvirt
-          ref: ${{ inputs.version }}
-          submodules: recursive
-          path: libvirt
+        run: |
+          git clone https://gitlab.com/libvirt/libvirt -b ${{ inputs.version }}
+          cd libvirt
+          git submodule update --init --recursive
+        #uses: actions/checkout@v3
+        #with:
+        #  repository: libvirt/libvirt
+        #  ref: ${{ inputs.version }}
+        #  submodules: recursive
+        #  path: libvirt
       - id: checkout_frame_deb_builder
         name: Checkout Debian builder repo
         uses: actions/checkout@v3

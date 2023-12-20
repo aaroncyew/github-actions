@@ -15,7 +15,7 @@ on:
         description: 'user space version'
         required: true
         type: string
-        default: 'v9.10.0'
+        default: 'v10.0.0'
       distro:
         description: 'distro'
         required: false

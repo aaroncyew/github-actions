@@ -1,5 +1,10 @@
 name: Build Debian Packages
 run-name: Build ${{ inputs.package }} ${{ inputs.version }} deb Package
+
+env: 
+  GITHUB_DISTRO_NAME: ''
+  GITHUB_DISTRO_VER: ''
+
 on:
   push:
     branches:
@@ -41,6 +46,8 @@ jobs:
           sudo rm -rf libvirt/ deb-builder/
           git config -l
           env | sort
+          export ${{ env.GITHUB_DISTRO_NAME }}=${{ matrix.distro }}
+          export ${{ env.GITHUB_DISTRO_VERSION }}=${{ matrix.distro-version }}
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3

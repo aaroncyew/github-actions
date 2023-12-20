@@ -5,12 +5,12 @@ on:
     inputs:
       package:
         description: 'user space package'
-        required: false
+        required: true
         type: string
         default: 'libvirt'
       version:
         description: 'user space version'
-        required: false
+        required: true
         type: string
         default: 'v9.10.0'
 jobs:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - id: cleanup_libvirt
         name: Cleanout libvirt upstream repo
-        run: sudo rm -rf libvirt/
+        run: sudo rm -rf ${{ github.workspace }}
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         uses: actions/checkout@v3
@@ -39,7 +39,7 @@ jobs:
           path: deb-builder
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/debian/11
+        uses: ${{ github.workspace }}/deb-builder/libvirt/debian/11
         with:
           token: ${{ secrets.DEB_BUILDE_TOKEN }}
       - id: libvirt_build_and_compile

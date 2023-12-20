@@ -47,7 +47,7 @@ jobs:
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         run: |
-          git clone https://gitlab.com/libvirt/libvirt -b v10.0.0
+          git clone https://gitlab.com/libvirt/libvirt -b v9.10.0
           cd libvirt
           git submodule update --init --recursive
         #uses: actions/checkout@v3

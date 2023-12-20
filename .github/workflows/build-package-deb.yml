@@ -69,7 +69,7 @@ jobs:
         name: Build & compile ${{ inputs.package}} on ${{ inputs.distro }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build
-          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build test
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest ninja -C build install
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build test
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build install

@@ -69,10 +69,12 @@ jobs:
       - id: libvirt_apply_patch
         name: Apply libvirt patches
         run: |
-          cd stack-bkc/
-          git checkout 
-          git checkout 9ccbe0c -- emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
-          cd ../libvirt
+          cd libvirt/
+          git am ../stack-bkc/emr/libvirt/0001-Add-IOMMUFD-object-support.patch
+          git am ../stack-bkc/emr/libvirt/0002-Add-IOMMUFD-support-for-intel-iommu.patch
+          git am ../stack-bkc/emr/libvirt/0003-Add-IOMMUFD-support-for-hostdev-passthrough.patch
+          git am ../stack-bkc/emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
+          git am ../stack-bkc/emr/libvirt/0005-Add-more-parameters-support-for-hostdev-passthrough.patch
           git am ../stack-bkc/emr/libvirt/0001-qemu-Check-if-INTEL-Trust-Domain-Extention-support-i.patch
           git am ../stack-bkc/emr/libvirt/0002-qemu-Add-TDX-capability.patch
           git am ../stack-bkc/emr/libvirt/0003-conf-expose-TDX-feature-in-domain-capabilities.patch
@@ -89,11 +91,7 @@ jobs:
           git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
           git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
           git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
-          git am ../stack-bkc/emr/libvirt/0001-Add-IOMMUFD-object-support.patch
-          git am ../stack-bkc/emr/libvirt/0002-Add-IOMMUFD-support-for-intel-iommu.patch
-          git am ../stack-bkc/emr/libvirt/0003-Add-IOMMUFD-support-for-hostdev-passthrough.patch
-          git am ../stack-bkc/emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
-          git am ../stack-bkc/emr/libvirt/0005-Add-more-parameters-support-for-hostdev-passthrough.patch
+
       - id: libvirt_deb_builder
         name: Build source package
         uses: ./deb-builder/libvirt/ubuntu/2204

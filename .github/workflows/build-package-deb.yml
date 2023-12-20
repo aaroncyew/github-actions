@@ -63,8 +63,8 @@ jobs:
         name: Build & compile ${{ inputs.package}} on ${{ matrix.distro }}
         shell: bash
         run: |
-          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ distro-version }}:latest git config -l
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ distro-version }}:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ distro-version }}:latest ninja -C build
-          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ distro-version }}:latest ninja -C build test
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ distro-version }}:latest ninja -C build install
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest git config -l
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build
+          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build test
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ matrix.distro }}-${{ matrix.distro-version }}:latest ninja -C build install

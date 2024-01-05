@@ -95,7 +95,7 @@ jobs:
         name: Apply Dockerfile Patch
         run: |
           cd deb-builder/
-          git am libvirt/ci/container/patch/0001-Add-entrypoint-to-Dockerfile.patch   
+          git am libvirt/ci/patch/0001-Add-entrypoint-to-Dockerfile.patch   
       - id: libvirt_deb_builder
         name: Build source package
         uses: ./deb-builder/libvirt/ubuntu/2204

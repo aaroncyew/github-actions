@@ -66,31 +66,31 @@ jobs:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
           clean: true
           path: deb-builder
-      #- id: libvirt_apply_patch
-      #  name: Apply libvirt patches
-      #  run: |
-      #    cd libvirt/
-      #    git am ../stack-bkc/emr/libvirt/0001-Add-IOMMUFD-object-support.patch
-      #    git am ../stack-bkc/emr/libvirt/0002-Add-IOMMUFD-support-for-intel-iommu.patch
-      #    git am ../stack-bkc/emr/libvirt/0003-Add-IOMMUFD-support-for-hostdev-passthrough.patch
-      #    git am ../stack-bkc/emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
-      #    git am ../stack-bkc/emr/libvirt/0005-Add-more-parameters-support-for-hostdev-passthrough.patch
-      #    git am ../stack-bkc/emr/libvirt/0001-qemu-Check-if-INTEL-Trust-Domain-Extention-support-i.patch
-      #    git am ../stack-bkc/emr/libvirt/0002-qemu-Add-TDX-capability.patch
-      #    git am ../stack-bkc/emr/libvirt/0003-conf-expose-TDX-feature-in-domain-capabilities.patch
-      #    git am ../stack-bkc/emr/libvirt/0004-conf-add-tdx-as-launch-security-type.patch
-      #    git am ../stack-bkc/emr/libvirt/0005-qemu-Add-command-line-and-validation-for-TDX-type.patch
-      #    git am ../stack-bkc/emr/libvirt/0006-qemu-force-special-parameters-enabled-for-TDX-guest.patch
-      #    git am ../stack-bkc/emr/libvirt/0007-qemu-add-hard-reboot-in-QEMU-driver.patch
-      #    git am ../stack-bkc/emr/libvirt/0008-qemu-make-hard-reboot-as-the-TDX-default-reboot-mode.patch
-      #    git am ../stack-bkc/emr/libvirt/0009-qemu-Extend-hard-reboot-in-Qemu-driver.patch
-      #    git am ../stack-bkc/emr/libvirt/0010-virsh-add-new-option-timekeep-to-keep-virsh-console-.patch
-      #    git am ../stack-bkc/emr/libvirt/0011-conf-Add-support-to-keep-same-domid-for-hard-reboot.patch
-      #    git am ../stack-bkc/emr/libvirt/0012-Add-private-memfd-host-memory-backend-for-QEMU.patch
-      #    git am ../stack-bkc/emr/libvirt/0103-RHEL-Fix-virConnectGetMaxVcpus-output.patch
-      #    git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
-      #    git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
-      #    git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
+      - id: libvirt_apply_patch
+        name: Apply libvirt patches
+        run: |
+          cd libvirt/
+          git am ../stack-bkc/emr/libvirt/0001-Add-IOMMUFD-object-support.patch
+          git am ../stack-bkc/emr/libvirt/0002-Add-IOMMUFD-support-for-intel-iommu.patch
+          git am ../stack-bkc/emr/libvirt/0003-Add-IOMMUFD-support-for-hostdev-passthrough.patch
+          git am ../stack-bkc/emr/libvirt/0004-Add-more-parameters-support-for-intel-iommu.patch
+          git am ../stack-bkc/emr/libvirt/0005-Add-more-parameters-support-for-hostdev-passthrough.patch
+          git am ../stack-bkc/emr/libvirt/0001-qemu-Check-if-INTEL-Trust-Domain-Extention-support-i.patch
+          git am ../stack-bkc/emr/libvirt/0002-qemu-Add-TDX-capability.patch
+          git am ../stack-bkc/emr/libvirt/0003-conf-expose-TDX-feature-in-domain-capabilities.patch
+          git am ../stack-bkc/emr/libvirt/0004-conf-add-tdx-as-launch-security-type.patch
+          git am ../stack-bkc/emr/libvirt/0005-qemu-Add-command-line-and-validation-for-TDX-type.patch
+          git am ../stack-bkc/emr/libvirt/0006-qemu-force-special-parameters-enabled-for-TDX-guest.patch
+          git am ../stack-bkc/emr/libvirt/0007-qemu-add-hard-reboot-in-QEMU-driver.patch
+          git am ../stack-bkc/emr/libvirt/0008-qemu-make-hard-reboot-as-the-TDX-default-reboot-mode.patch
+          git am ../stack-bkc/emr/libvirt/0009-qemu-Extend-hard-reboot-in-Qemu-driver.patch
+          git am ../stack-bkc/emr/libvirt/0010-virsh-add-new-option-timekeep-to-keep-virsh-console-.patch
+          git am ../stack-bkc/emr/libvirt/0011-conf-Add-support-to-keep-same-domid-for-hard-reboot.patch
+          git am ../stack-bkc/emr/libvirt/0012-Add-private-memfd-host-memory-backend-for-QEMU.patch
+          git am ../stack-bkc/emr/libvirt/0103-RHEL-Fix-virConnectGetMaxVcpus-output.patch
+          git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
+          git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
+          git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
       - id: debuilder_apply_patch
         name: Apply Dockerfile Patch
         run: |

@@ -100,7 +100,7 @@ jobs:
           chmod +x entrypoint.sh
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
+        uses: ./deb-builder/libvirt/ubuntu/2204
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile

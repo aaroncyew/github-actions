@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: intel-sandbox/frameworks.actions.deb-builder
-          #token: ${{ secrets.DEB_BUILDER_TOKEN }}
+          token: ${{ secrets.DEB_BUILDER_TOKEN }}
           clean: true
           path: deb-builder
       - id: libvirt_apply_patch
@@ -91,23 +91,29 @@ jobs:
           git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
           git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
           git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
-
+      - id: debuilder_apply_patch
+        name: Apply Dockerfile Patch
+        run: |
+          cd deb-builder/
+          git am libvirt/ci/container/patch/0001-Add-entrypoint-to-Dockerfile.patch   
       - id: libvirt_deb_builder
         name: Build source package
         uses: ./deb-builder/libvirt/ubuntu/2204
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
-        name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}
+        name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}-${{ inputs.distro-version }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled \
-          -Ddriver_libxl=enabled -Dsasl=enabled -Dpolkit=enabled -Ddriver_libvirtd=enabled -Ddriver_remote=enabled -Ddriver_test=enabled -Ddriver_vz=disabled -Ddriver_bhyve=disabled -Ddriver_ch=disabled -Ddriver_interface=enabled -Ddriver_network=enabled \
-          -Dstorage_fs=enabled -Dstorage_lvm=enabled -Dstorage_iscsi=enabled -Dstorage_iscsi_direct=enabled -Dlibiscsi=enabled -Dstorage_scsi=enabled -Dstorage_disk=enabled -Dstorage_mpath=enabled \
-          -Dstorage_rbd=enabled -Dstorage_gluster=enabled -Dglusterfs=enabled -Dstorage_zfs=enabled -Dstorage_vstorage=disabled \
-          -Dnumactl=enabled -Dnumad=enabled -Dcapng=enabled -Dfuse=enabled -Dnetcf=enabled -Dselinux=enabled -Dselinux_mount="/sys/fs/selinux" \
-          -Dapparmor=disabled -Dapparmor_profiles=disabled -Dsecdriver_apparmor=disabled -Dudev=enabled -Dyajl=enabled -Dlibpcap=enabled -Dlibnbd=enabled -Dlibnl=enabled -Daudit=enabled -Ddtrace=enabled -Dfirewalld=enabled -Dfirewalld_zone=enabled -Dwireshark_dissector=enabled \
-          -Dlibssh=enabled -Dlibssh2=enabled -Dpm_utils=disabled -Dnss=enabled -Dexpensive_tests=enabled -Dinit_script=systemd -Ddocs=enabled -Dtests=enabled -Drpath=disabled -Dlogin_shell=enabled
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build
-          echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build test
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build install
+          cd deb-builder/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ./entrypoint
+          #docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest meson setup build --error -Dsystem=true -Ddriver_qemu=enabled \
+          #-Ddriver_libxl=enabled -Dsasl=enabled -Dpolkit=enabled -Ddriver_libvirtd=enabled -Ddriver_remote=enabled -Ddriver_test=enabled -Ddriver_vz=disabled -Ddriver_bhyve=disabled -Ddriver_ch=disabled -Ddriver_interface=enabled -Ddriver_network=enabled \
+          #-Dstorage_fs=enabled -Dstorage_lvm=enabled -Dstorage_iscsi=enabled -Dstorage_iscsi_direct=enabled -Dlibiscsi=enabled -Dstorage_scsi=enabled -Dstorage_disk=enabled -Dstorage_mpath=enabled \
+          #-Dstorage_rbd=enabled -Dstorage_gluster=enabled -Dglusterfs=enabled -Dstorage_zfs=enabled -Dstorage_vstorage=disabled \
+          #-Dnumactl=enabled -Dnumad=enabled -Dcapng=enabled -Dfuse=enabled -Dnetcf=enabled -Dselinux=enabled -Dselinux_mount="/sys/fs/selinux" \
+          #-Dapparmor=disabled -Dapparmor_profiles=disabled -Dsecdriver_apparmor=disabled -Dudev=enabled -Dyajl=enabled -Dlibpcap=enabled -Dlibnbd=enabled -Dlibnl=enabled -Daudit=enabled -Ddtrace=enabled -Dfirewalld=enabled -Dfirewalld_zone=enabled -Dwireshark_dissector=enabled \
+          #-Dlibssh=enabled -Dlibssh2=enabled -Dpm_utils=disabled -Dnss=enabled -Dexpensive_tests=enabled -Dinit_script=systemd -Ddocs=enabled -Dtests=enabled -Drpath=disabled -Dlogin_shell=enabled
+          #docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build
+          #echo docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build test
+          #docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest ninja -C build install

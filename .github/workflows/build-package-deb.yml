@@ -94,17 +94,17 @@ jobs:
       - id: debuilder_apply_patch
         name: Apply Dockerfile Patch
         run: |
-          cd deb-builder/
-          git am libvirt/ci/patch/0001-Add-libnetcf-dev-support-to-ubuntu-2204.patch
+          #cd deb-builder/
+          #git am libvirt/ci/patch/0001-Add-libnetcf-dev-support-to-ubuntu-2204.patch
           cd libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
           chmod +x entrypoint.sh
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/ubuntu/2204
+        uses: ./deb-builder/libvirt/ubuntu/2004
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
         name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}-${{ inputs.distro-version }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest /root/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}/entrypoint.sh
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-${{ inputs.distro }}-${{ inputs.distro-version }}:latest /root/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}/entrypoint.sh

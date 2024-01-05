@@ -1,9 +1,9 @@
 name: Build Debian Packages
 run-name: Build ${{ inputs.package }} ${{ inputs.version }} deb Package
 on:
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
   workflow_dispatch:
     inputs:
       package:
@@ -49,7 +49,7 @@ jobs:
       - id: checkout_libvirt
         name: Checkout libvirt upstream repo
         run: |
-          git clone https://gitlab.com/libvirt/libvirt -b v9.10.0
+          git clone https://gitlab.com/libvirt/libvirt -b ${{ inputs.version }}
           cd libvirt
           git submodule update --init --recursive
         #uses: actions/checkout@v3
@@ -91,23 +91,20 @@ jobs:
           git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
           git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
           git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
-      #- id: debuilder_apply_patch
-      #  name: Apply Dockerfile Patch
-      #  run: |
-      #    cd deb-builder/
-      #    git am libvirt/ci/patch/0001-Add-entrypoint-to-Dockerfile.patch
-      - id: entrypoint_execute
-        name: Change entrypoint permission
+      - id: debuilder_apply_patch
+        name: Apply Dockerfile Patch
         run: |
-          cd deb-builder/libvirt/ubuntu/2204
+          cd deb-builder/
+          git am libvirt/ci/patch/0001-Add-libnetcf-dev-support-to-ubuntu-2204.patch
+          cd libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
           chmod +x entrypoint.sh
       - id: libvirt_deb_builder
         name: Build source package
-        uses: ./deb-builder/libvirt/ubuntu/2204
+        uses: ./deb-builder/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
         with:
           token: ${{ secrets.DEB_BUILDER_TOKEN }}
       - id: libvirt_build_and_compile
         name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}-${{ inputs.distro-version }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest /root/libvirt/ubuntu/2204/entrypoint.sh
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest /root/libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}/entrypoint.sh

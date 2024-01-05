@@ -91,11 +91,11 @@ jobs:
           git am ../stack-bkc/emr/libvirt/0106-RHEL-virscsi-Check-device-type-before-getting-it-s-d.patch
           git am ../stack-bkc/emr/libvirt/0107-RHEL-virscsi-Support-TAPEs-in-virSCSIDeviceGetDevNam.patch
           git am ../stack-bkc/emr/libvirt/0201-DROP-test-commandtest.patch
-      - id: debuilder_apply_patch
-        name: Apply Dockerfile Patch
-        run: |
-          cd deb-builder/
-          git am libvirt/ci/patch/0001-Add-entrypoint-to-Dockerfile.patch   
+      #- id: debuilder_apply_patch
+      #  name: Apply Dockerfile Patch
+      #  run: |
+      #    cd deb-builder/
+      #    git am libvirt/ci/patch/0001-Add-entrypoint-to-Dockerfile.patch   
       - id: libvirt_deb_builder
         name: Build source package
         uses: ./deb-builder/libvirt/ubuntu/2204
@@ -105,4 +105,4 @@ jobs:
         name: Build & compile ${{ inputs.package }} on ${{ inputs.distro }}-${{ inputs.distro-version }}
         shell: bash
         run: |
-          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest
+          docker run --rm -v $(pwd)/libvirt:/build/libvirt -v ${{ github.workspace }}/deb-builder:/root --workdir /build/libvirt registry.gitlab.com/libvirt/libvirt/ci-ubuntu-2204:latest /root/libvirt/ubuntu/2204/entrypoint.sh

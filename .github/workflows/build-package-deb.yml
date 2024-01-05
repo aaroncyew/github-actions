@@ -94,7 +94,7 @@ jobs:
       - id: debuilder_apply_patch
         name: Apply Dockerfile Patch
         run: |
-          #cd deb-builder/
+          cd deb-builder/
           #git am libvirt/ci/patch/0001-Add-libnetcf-dev-support-to-ubuntu-2204.patch
           cd libvirt/${{ inputs.distro }}/${{ inputs.distro-version }}
           chmod +x entrypoint.sh
